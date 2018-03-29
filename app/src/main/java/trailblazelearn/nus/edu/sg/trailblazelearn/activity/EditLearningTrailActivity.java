@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,23 +28,18 @@ import fao.ManageLearningTrail;
 import model.LearningTrial;
 import trailblazelearn.nus.edu.sg.trailblazelearn.R;
 
-public class AddLearningTrailActivity extends AppCompatActivity {
+public class EditLearningTrailActivity extends AppCompatActivity {
 
     private Button saveBtn, bAdd;
-    private EditText trailName, addTrailDate;
+    private EditText trailName,addTrailDate;
     DatePickerDialog datePickerDialog;
     Calendar currentCal = Calendar.getInstance();
     Calendar selectedDate = Calendar.getInstance();
-    String userId = null;
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+    String userId = null;
+    String trailId = null;
 
-
-    private RecyclerView recyclerView;
-    private LearningTrailAdapter mAdapter;
     DatabaseReference db;
-    ManageLearningTrail trailhelper;
-
-
 
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -51,19 +48,22 @@ public class AddLearningTrailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_learning_trail);
-      //  Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+
+        if(getIntent() != null)
+            trailId = getIntent().getStringExtra("LearningTrailId");
+        //Get data to populate
+        //INITIALIZE FIREBASE DB
+        db= FirebaseDatabase.getInstance().getReference("LearningTrial");
 
 
-      //  setSupportActionBar(toolbar);
-
-      //  ActionBar actionBar = getSupportActionBar();
-       // if (actionBar != null) {
-        //    actionBar.setDisplayHomeAsUpEnabled(true);
-       // }
         trailName= (EditText) findViewById(R.id.addTrailName);
         addTrailDate= (EditText) findViewById(R.id.addTrailDate);
         Button saveBtn= (Button) findViewById(R.id.btn_save);
        // setListeners();
+
+        //Now populate in fields added.
+        //trailName.setText(lt.getTrailname());
+        //and so on.
 
         addTrailDate.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -78,7 +78,7 @@ public class AddLearningTrailActivity extends AppCompatActivity {
                             }
                         };
                 DatePickerDialog datePickerDialog =
-                        new DatePickerDialog(AddLearningTrailActivity.this, onDateSetListener,
+                        new DatePickerDialog(EditLearningTrailActivity.this, onDateSetListener,
                                 currentCal.get(Calendar.YEAR), currentCal.get(Calendar.MONTH),
                                 currentCal.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -92,63 +92,83 @@ public class AddLearningTrailActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() ==null){
-                    Intent i = new Intent(AddLearningTrailActivity.this, MainActivity.class);
+                    Intent i = new Intent(EditLearningTrailActivity.this, MainActivity.class);
                     startActivity(i);
                 }else{
-                    userId = firebaseAuth.getCurrentUser().getUid();
+                    userId = mAuth.getCurrentUser().getUid();
                 }
 
             }
         };
 
-
         //INITIALIZE FIREBASE DB
-        db= FirebaseDatabase.getInstance().getReference("LearningTrial");
-        trailhelper=new ManageLearningTrail(db);
-
-
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getLearningTrail();
             }
         });
-
     }
 
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.addTrailDate:
+                datePickerDialog.show();
+                break;
+            case R.id.btn_save:
+                getLearningTrail();
+                break;
+
+        }
+    }
 
     private void getLearningTrail()
     {
         try {
-            String trailname = trailName.getText().toString();
-            Date c = Calendar.getInstance().getTime();
-
-             String g=addTrailDate.getText().toString();
+            String trailName = this.trailName.getText().toString();
+            String g = addTrailDate.getText().toString();
 
             SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
             String formattedDate = df.format(new Date(g));
 
             Long tsLong = System.currentTimeMillis() / 1000;
             String ts = tsLong.toString();
-            String trailId = db.push().getKey();
 
             //SET DATA
-            LearningTrial s = new LearningTrial(trailId, userId, formattedDate, trailname, ts, trailname);
+            LearningTrial s = new LearningTrial(trailId, userId, formattedDate, trailName, ts, trailName);
+
             //SIMPLE VALIDATION
-            if (trailname != null && trailname.length() > 0) {
-                db.child(s.getLearningtrailid()).setValue(s);
-                Toast.makeText(AddLearningTrailActivity.this, getString(R.string.save_successful),
+            if (trailName != null && trailName.length() > 0) {
+                db.child(trailId).setValue(s);
+                Toast.makeText(EditLearningTrailActivity.this, getString(R.string.update_successful),
                         Toast.LENGTH_SHORT).show();
 
-                Intent i = new Intent(AddLearningTrailActivity.this, LearningTrailActivity.class);
+                Intent i = new Intent(EditLearningTrailActivity.this, LearningTrailActivity.class);
                 startActivity(i);
+                finish();
             } else {
-                Toast.makeText(AddLearningTrailActivity.this, "Name Must Not Be Empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditLearningTrailActivity.this, "Name Must Not Be Empty", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
-            Toast.makeText(AddLearningTrailActivity.this, "Date format should be valid.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditLearningTrailActivity.this, "Date format should be valid.", Toast.LENGTH_SHORT).show();
         }
     }
+    public boolean onTouch(View v, MotionEvent event) {
+        final int actionPerformed = event.getAction();
 
+        switch(actionPerformed) {
+            case MotionEvent.ACTION_DOWN:
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                break;
+        }
+        return false;
+    }
 
 }

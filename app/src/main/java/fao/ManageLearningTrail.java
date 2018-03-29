@@ -18,6 +18,9 @@ public class ManageLearningTrail {
     Boolean saved=null;
     ArrayList<LearningTrial> learningTrials=new ArrayList<>();
 
+    private String userId;
+
+
 
     public ManageLearningTrail(DatabaseReference db) {
         this.db = db;
@@ -33,7 +36,7 @@ public class ManageLearningTrail {
         {
             try
             {
-                db.child("LearningTrial").push().setValue(learningTrial);
+                db.push().setValue(learningTrial);
                 saved=true;
 
             }catch (DatabaseException e)
@@ -50,11 +53,13 @@ public class ManageLearningTrail {
     private void fetchData(DataSnapshot dataSnapshot)
     {
         learningTrials.clear();
-
         for (DataSnapshot ds : dataSnapshot.getChildren())
         {
-            LearningTrial learningTrial=ds.getValue(LearningTrial.class);
-            learningTrials.add(learningTrial);
+            String uId = String.valueOf(ds.child("userid").getValue());
+            if(userId != null && uId.equals(userId)) {
+                LearningTrial learningTrial = ds.getValue(LearningTrial.class);
+                learningTrials.add(learningTrial);
+            }
         }
     }
 
@@ -74,7 +79,7 @@ public class ManageLearningTrail {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                fetchData(dataSnapshot);
             }
 
             @Override
@@ -92,5 +97,26 @@ public class ManageLearningTrail {
         return learningTrials;
     }
 
+    public boolean remove(int position){
+        LearningTrial lt = learningTrials.get(position);
+        db.child(lt.getLearningtrailid()).setValue(null);
+        return true;
+    }
+
+    public String getTrailId(int position){
+        LearningTrial lt = learningTrials.get(position);
+        return lt.getLearningtrailid();//Todo, we may need the unique identofier key of trailid instead of trailid that user entered.
+    }
+
+    //READ THEN RETURN ARRAYLIST
+    public LearningTrial retrieveTrailbyId(String TrailId) {
+        //ToDO
+        //Learning trail object and return to UI so that can get data.
+        return null;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }
 

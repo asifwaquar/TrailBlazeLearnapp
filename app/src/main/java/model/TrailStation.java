@@ -5,42 +5,62 @@ package model;
  */
 
 public class TrailStation {
+    String trailstationid;
+    String trailid;
+    String stationname;
+    String instruction;
+    double longitude;
+    double latitude;
 
-    String trailstationid,trailid,glocation,name,instruction;
-    int sequenceid;
+    public TrailStation(String trailstationid, String trailid, String stationname, String instruction, double latitude, double longitude) {
+        this.trailstationid = trailstationid;
+        this.trailid = trailid;
+        this.stationname = stationname;
+        this.instruction = instruction;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public TrailStation() {
     }
 
-    public TrailStation(String trailstationid, String trailid, String glocation, String name, String instruction, int sequenceid) {
-        this.trailstationid = trailstationid;
-        this.trailid = trailid;
-        this.glocation = glocation;
-        this.name = name;
-        this.instruction = instruction;
-        this.sequenceid = sequenceid;
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
     }
 
     public String getTrailstationid() {
         return trailstationid;
     }
 
+    public void setTrailstationid(String trailstationid) {
+        this.trailstationid = trailstationid;
+    }
+
     public String getTrailid() {
         return trailid;
     }
 
-    public String getGlocation() {
-        return glocation;
+    public void setTrailid(String trailid) {
+        this.trailid = trailid;
     }
 
-    public String getName() {
-        return name;
+    public String getStationname() {
+        return stationname;
+    }
+
+    public void setStationname(String stationname) {
+        this.stationname = stationname;
     }
 
     public String getInstruction() {
         return instruction;
     }
 
-    public int getSequenceid() {
-        return sequenceid;
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
     }
 }

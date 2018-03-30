@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="trailblazelearn.nus.edu.sg.trailblazelearn.activity.PostActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            >
+
+            <TextView
+                android:id="@+id/textcomments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:paddingLeft="4dp"
+                />
+            <EditText
+                android:id="@+id/et_discussion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:maxLines="4"
+                android:minLines="4"
+                android:textSize="20sp"
+                android:layout_below="@id/textcomments"
+                android:hint="Comments"
+                />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Select a File to upload"
+                android:textSize="20sp"
+                android:layout_below="@id/et_discussion"
+                />
+
+
+
+            <Button
+                android:id="@+id/btn_browseFile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@color/colorPrimary"
+                android:text="Browse File"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:layout_below="@id/textView2"/>
+
+            <Button
+                android:id="@+id/post_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@color/colorPrimary"
+                android:text="Save"
+                android:textColor="@android:color/white"
+                android:layout_below="@id/btn_browseFile"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

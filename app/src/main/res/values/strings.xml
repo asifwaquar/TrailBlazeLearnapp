@@ -3,6 +3,19 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
+    <string name="save">Save</string>
+    <string name="save_successful">Trail Added Successfully.</string>
+    <string name="update_successful">Trail Updated Successfully.</string>
+    <string name="trail_station_added_successful">Trail Station Added Successfully.</string>
+    <string name="trail_name">Trail Name</string>
+    <string name="trail_code">Trail Code</string>
+    <string name="hint_trail_name">Enter Trail Name</string>
+    <string name="hint_trail_code">Enter Trail Code</string>
+    <string name="trail_id_name">TrailID</string>
+    <string name="hint_trail_id_name">Enter Trail ID</string>
+    <string name="user_name">UserID</string>
+    <string name="user_name_hint">Enter UserID</string>
+    <string name="select_date">Trail Date</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="google_button">Sign in with google</string>
@@ -12,6 +25,10 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+
+    <string name="label_trail_id">Trail ID:</string>
+    <string name="label_trail_name">Trail Name:</string>
+
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -26,4 +43,27 @@
     <string name="action_settings">Settings</string>
     <string name="logout">Log Out</string>
     <string name="delete">DELETE</string>
+    <string name="title_activity_layout">LayoutActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_learning_trail">Learning Trail </string>
+    <string name="title_activity_learning_trails">Learning Trail Details</string>
+    <string name="title_activity_add_learning_trail">Add Learning Trails</string>
+    <string name="title_activity_add_trail_station">Add Trail Station</string>
+    <string name="title_activity_participant">Trail Stations</string>
+    <string name="title_activity_trail_stations">Trail Station Details</string>
+    <string name="title_activity_edit_learn_trail">Edit Learn Trail</string>
+    <string name="title_activity_trail_stations_details">Trail Station Details</string>
+    <string name="post_details">Post</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+
+    <string name="facebook_app_id">2066670993599247</string>
+    <string name="fb_login_protocol_scheme">fb2066670993599247</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="learning_trail_id">Learning Trail ID</string>
+    <string name="get_stations">Get Trail Stations</string>
 </resources>

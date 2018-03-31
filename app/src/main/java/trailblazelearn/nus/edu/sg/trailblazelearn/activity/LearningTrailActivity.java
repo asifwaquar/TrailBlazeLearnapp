@@ -27,6 +27,10 @@ import adapter.LearningTrailAdapter;
 import fao.ManageLearningTrail;
 import trailblazelearn.nus.edu.sg.trailblazelearn.R;
 
+import android.graphics.Canvas;
+import android.support.v7.widget.helper.ItemTouchHelper;
+
+
 public class LearningTrailActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,6 +40,7 @@ public class LearningTrailActivity extends AppCompatActivity
     DatabaseReference db;
     ManageLearningTrail trailhelper;
 
+    SwipeController swipeController = null;
     public static final String LEARNING_TRAIL_ID = "trailblazelearn.nus.edu.sg.trailblazelearn.learningtrailid";
     public static final String USER_ID = "trailblazelearn.nus.edu.sg.trailblazelearn.userid";
     public static final String TRAIL_NAME = "trailblazelearn.nus.edu.sg.trailblazelearn.trailname";
@@ -133,6 +138,37 @@ public class LearningTrailActivity extends AppCompatActivity
 
         mAdapter=new LearningTrailAdapter(LearningTrailActivity.this,trailhelper.retrieve());
         recyclerView.setAdapter(mAdapter);
+
+        //adding swipe function
+        swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                //mAdapter.players.remove(position);
+                trailhelper.remove(position);
+                mAdapter.notifyItemRemoved(position);
+                mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());
+            }
+
+            @Override
+            public void onLeftClicked(int position) {
+                String trailId = trailhelper.getTrailId(position);
+                //ToDO
+                //Redirect to Edit activity with data.
+                Intent i = new Intent(LearningTrailActivity.this, EditLearningTrailActivity.class);
+                i.putExtra("LearningTrailId",trailhelper.getTrailId(position));
+                startActivity(i);
+            }
+        });
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
 
 
         //RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

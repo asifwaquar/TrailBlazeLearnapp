@@ -1,0 +1,5 @@
+Current issues and Risk mitigation Steps
+1-Technical and project risks are handled implicitly in Agile by tracking user stories and it's velocity.
+2-Operational risks: change/release control automation, aligning test , metrics/monitoring to detect exceptions and failures
+3-Security risk-Code review,buld and quaity check process using build pipeline.
+4-Standardisation of Dev/QA/Prod enviorment by containarisation.

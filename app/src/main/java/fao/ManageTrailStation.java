@@ -1,4 +1,5 @@
 package fao;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -7,33 +8,33 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
-import model.LearningTrial;
+import model.TrailStation;
 
 /**
- * Created by Asif on 3/17/2018.
+ * Created by Asif on 3/24/2018.
  */
 
-public class ManageLearningTrail {
+public class ManageTrailStation {
+
     DatabaseReference db;
     Boolean saved=null;
-    ArrayList<LearningTrial> learningTrials=new ArrayList<>();
+    ArrayList<TrailStation> stationTrials=new ArrayList<>();
 
-
-    public ManageLearningTrail(DatabaseReference db) {
+    public ManageTrailStation(DatabaseReference db) {
         this.db = db;
     }
 
-    //WRITE IF NOT NULL
-    public Boolean save(LearningTrial learningTrial)
+
+    public Boolean trailstationsave(TrailStation trailstations)
     {
-        if(learningTrial==null)
+        if(stationTrials==null)
         {
             saved=false;
         }else
         {
             try
             {
-                db.child("LearningTrial").push().setValue(learningTrial);
+                db.child("TrailStation").push().setValue(trailstations);
                 saved=true;
 
             }catch (DatabaseException e)
@@ -47,28 +48,31 @@ public class ManageLearningTrail {
     }
 
     //IMPLEMENT FETCH DATA AND FILL ARRAYLIST
-    private void fetchData(DataSnapshot dataSnapshot)
+    private void stationfetchData(DataSnapshot dataSnapshot)
     {
-        learningTrials.clear();
+        stationTrials.clear();
 
         for (DataSnapshot ds : dataSnapshot.getChildren())
         {
-            LearningTrial learningTrial=ds.getValue(LearningTrial.class);
-            learningTrials.add(learningTrial);
+            TrailStation trail_station=ds.getValue(TrailStation.class);
+            stationTrials.add(trail_station);
         }
     }
 
+
+
+
     //READ THEN RETURN ARRAYLIST
-    public ArrayList<LearningTrial> retrieve() {
+    public ArrayList<TrailStation> stationretrieve() {
         db.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                fetchData(dataSnapshot);
+                stationfetchData(dataSnapshot);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                fetchData(dataSnapshot);
+                stationfetchData(dataSnapshot);
 
             }
 
@@ -89,8 +93,10 @@ public class ManageLearningTrail {
         });
 
 
-        return learningTrials;
+        return stationTrials;
     }
 
-}
 
+
+
+}
